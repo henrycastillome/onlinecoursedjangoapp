@@ -208,4 +208,4 @@ if not LOCAL_SERVE_MEDIA_FILES:
     PRIVATE_MEDIA_LOCATION = 'media/private'
     PRIVATE_FILE_STORAGE = 'utils.storage_backends.PrivateMediaStorage'
 
-django_heroku.settings(locals(), staticfiles=False)
+django_heroku.settings(locals())
