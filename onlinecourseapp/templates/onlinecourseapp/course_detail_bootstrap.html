@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'onlinecourseapp:index' %}">Home</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="{% url 'onlinecourseapp:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                    <form class="form-inline" action="{% url 'onlinecourseapp:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username">
+                            <input type="password" class="form-control" placeholder="Username" name="psw">
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{% url 'onlinecourseapp:registration' %}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page content -->
+    <div class="container">
+        <h2>{{ course.name }}</h2>
+        <div class="card-columns-vertical">
+            {% for lesson in course.lesson_set.all %}
+            <div class="card">
+                <div class="card-header">
+                    <h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5>
+                </div>
+                <div class="card-body">{{lesson.content}}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+        {% if user.is_authenticated%}
+        <div class="container" style="padding-top: 20px;">
+            <form id="questionform" action="{% url 'onlinecourseapp:submit' course.pk  %}" method="POST">
+                {% csrf_token %}
+                <a href="#exam" class="btn btn-primary btn-block" data-toggle="collapse">Start Exam</a>
+                <div id="exam" class="collapse">
+                    {% for question in course.question_set.all %}
+                    <div class="card mt-1">
+                        <div class="card-header">
+                            <h5> Question {{forloop.counter}}: {{ question.question_text }} </h5>
+                        </div>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {% for choice in question.choice_set.all %}
+                            <div class="card-body form-check">
+                                <label class="form-check-label" style="padding-left: 20px;">
+                                    <input class="form-check-input" type="checkbox" name="choice_{{choice.id}}"
+                                        value="{{choice.id}}" id="{{choice.id}}">
+                                    {{choice.choice_text}}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <input class="btn btn-success btn-block" type="submit" value="Submit">
+                </div>
+
+            </form>
+        </div>
+
+        {% endif %}
+
+
+      
+    </div>
+</body>
+
+</html>

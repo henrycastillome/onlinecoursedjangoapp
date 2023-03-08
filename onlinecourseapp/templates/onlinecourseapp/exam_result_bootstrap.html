@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'onlinecourseapp:index' %}">Home</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="{% url 'onlinecourseapp:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                    <form class="form-inline" action="{% url 'onlinecourseapp:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username">
+                            <input type="password" class="form-control" placeholder="Username" name="psw">
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{% url 'onlinecourseapp:registration' %}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <!-- Display passed info -->
+        {% if percentage >= 80 %}
+        <div class="alert alert-success">
+            <p><b>Congratulations,{{ user.first_name }} </b> you have have {{message}} the course with a score
+                {{percentage}}</p>
+
+
+        </div>
+        {% else %}
+        <div class="alert alert-danger">
+            <!--Display failed info -->
+            <p><b>Sorry, {{ user.first_name }} </b> you have have {{message}} the course with a score {{percentage}}/100
+            </p>
+
+        </div>
+        <a class="btn btn-link text-danger" href="{% url 'onlinecourseapp:course_details' course.id %}">Re-test</a>
+        {% endif %}
+
+        <h5 class="">Exam results</h5>
+
+        {% for question in course.question_set.all %}
+        <div class="card mt-1">
+            <div class="card-header">
+                <h5> Question {{forloop.counter}}:{{question.question_text}}</h5>
+            </div>
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="body-card">
+                    {% for choice_text in question.choice_set.all %}
+                        {% for choice in selected_choices %}
+                            {% if choice_text == choice and choice.is_correct %}
+                                <p class="text-dark"> You selected <b><u>{{choice}}</u></b></p>
+                                <p class="text-success">Correct answer</p>
+                            {% endif %}
+                            {% if choice_text == choice and not choice.is_correct%}
+                                <p class="text-dark"> You selected <b><u>{{choice}}</u></b></p>
+                                <p class="text-danger"> Incorrect answer</p>      
+                            {% endif %}
+                            
+                        {% endfor %}
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    
+</body>
+
+</html>
