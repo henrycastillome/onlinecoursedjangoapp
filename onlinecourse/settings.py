@@ -16,6 +16,7 @@ from django.test.runner import DiscoverRunner
 from pathlib import Path
 from decouple import config
 from dotenv import load_dotenv
+import django_heroku
 
 load_dotenv()
 
@@ -206,3 +207,5 @@ if not LOCAL_SERVE_MEDIA_FILES:
     PRIVATE_MEDIA_DEFAULT_ACL = 'private'
     PRIVATE_MEDIA_LOCATION = 'media/private'
     PRIVATE_FILE_STORAGE = '.utils.storage_backends.PrivateMediaStorage'
+
+django_heroku.settings(locals())
