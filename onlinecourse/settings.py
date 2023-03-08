@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-2(bx#jn$_3dnpx22=68=36ji8$8a*r3eq-z-x!*c2mt_hzua58
 # SECURITY WARNING: don't run with debug turned on in production!
 # Generally avoid wildcards(*). However since Heroku router provides hostname validation it is ok
 if IS_HEROKU:
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = [".herokuapp.com"]
 else:
     ALLOWED_HOSTS = []
 
@@ -98,12 +98,15 @@ WSGI_APPLICATION = 'onlinecourse.wsgi.application'
 
 MAX_CONN_AGE = 600
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 if "DATABASE_URL" in os.environ:
     # Configure Django for DATABASE_URL environment variable.
     DATABASES["default"] = dj_database_url.config(
@@ -208,4 +211,4 @@ if not LOCAL_SERVE_MEDIA_FILES:
     PRIVATE_MEDIA_LOCATION = 'media/private'
     PRIVATE_FILE_STORAGE = 'utils.storage_backends.PrivateMediaStorage'
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)
