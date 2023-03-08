@@ -15,6 +15,9 @@ import os
 from django.test.runner import DiscoverRunner
 from pathlib import Path
 from decouple import config
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -178,9 +181,9 @@ if (not LOCAL_SERVE_MEDIA_FILES or not LOCAL_SERVE_STATIC_FILES) and not S3_ENAB
     raise ValueError('S3_ENABLED must be true if either media or static files are not served locally')
 
 if S3_ENABLED:
-    AWS_ACCESS_KEY_ID = config('BUCKETEER_AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('BUCKETEER_AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('BUCKETEER_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('bucketeer-15935028-b52f-402e-aaf9-365e7a001dbc')
     AWS_S3_REGION_NAME = config('BUCKETEER_AWS_REGION')
     AWS_DEFAULT_ACL = None
     AWS_S3_SIGNATURE_VERSION = config('S3_SIGNATURE_VERSION', default='s3v4')
