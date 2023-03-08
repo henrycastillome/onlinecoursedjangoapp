@@ -147,10 +147,9 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'collected-static'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'collected-media'
 
 
 # Test Runner Config
@@ -179,10 +178,10 @@ if (not LOCAL_SERVE_MEDIA_FILES or not LOCAL_SERVE_STATIC_FILES) and not S3_ENAB
     raise ValueError('S3_ENABLED must be true if either media or static files are not served locally')
 
 if S3_ENABLED:
-    AWS_ACCESS_KEY_ID = config('AKIAVVKH7VVUA2FN5QER')
-    AWS_SECRET_ACCESS_KEY = config('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')
-    AWS_STORAGE_BUCKET_NAME = config('bucketeer-15935028-b52f-402e-aaf9-365e7a001dbc')
-    AWS_S3_REGION_NAME = config('us-east-1')
+    AWS_ACCESS_KEY_ID = config('BUCKETEER_AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('BUCKETEER_AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('BUCKETEER_BUCKET_NAME')
+    AWS_S3_REGION_NAME = config('BUCKETEER_AWS_REGION')
     AWS_DEFAULT_ACL = None
     AWS_S3_SIGNATURE_VERSION = config('S3_SIGNATURE_VERSION', default='s3v4')
     AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
@@ -192,7 +191,7 @@ if not LOCAL_SERVE_STATIC_FILES:
     STATIC_DEFAULT_ACL = 'public-read'
     STATIC_LOCATION = 'static'
     STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = '.utils.storage_backends.StaticStorage' 
+    STATICFILES_STORAGE = '.utils.storage_backends.StaticStorage'
 
 if not LOCAL_SERVE_MEDIA_FILES:
     PUBLIC_MEDIA_DEFAULT_ACL = 'public-read'
