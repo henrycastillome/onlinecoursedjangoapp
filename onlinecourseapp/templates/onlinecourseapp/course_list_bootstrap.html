@@ -44,7 +44,7 @@
         <div class="card-deck ">
             {% for course in course_list %}
             <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 36rem;">
-                <img class="card-img-top" src= " {{STATIC_URL}}/{{ course.image }}" style="max-width: 100% ; height: 300px;"
+                <img class="card-img-top" src= " {{MEDIA_URL}}/{{ course.image }}" style="max-width: 100% ; height: 300px;"
                     alt="Course image">
                 <div class="card-body bg-light">
                     <h5 class="card-title">{{ course.name }}, <span class="text-success">
