@@ -1,0 +1,17 @@
+{
+    "addons": [
+        "heroku-postgresql:hobby-dev",
+        {
+        "plan": "bucketeer:hobbyist",
+        "as": "BUCKETEER"
+        }
+    ],
+  "env": {
+    
+    "S3_ENABLED": {
+      "description": "Enable to upload & serve static and media files from S3",
+      "value": "True"
+    }
+}
+
+}

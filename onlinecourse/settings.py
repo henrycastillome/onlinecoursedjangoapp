@@ -46,6 +46,7 @@ if not IS_HEROKU:
 
 INSTALLED_APPS = [
     'onlinecourseapp.apps.OnlinecourseAppConfig',
+    'storages',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
