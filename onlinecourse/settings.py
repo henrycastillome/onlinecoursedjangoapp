@@ -98,14 +98,14 @@ WSGI_APPLICATION = 'onlinecourse.wsgi.application'
 
 MAX_CONN_AGE = 600
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+
 
 if "DATABASE_URL" in os.environ:
     # Configure Django for DATABASE_URL environment variable.
@@ -191,7 +191,7 @@ if S3_ENABLED:
     AWS_S3_REGION_NAME = config('BUCKETEER_AWS_REGION')
     AWS_DEFAULT_ACL = None
     AWS_S3_SIGNATURE_VERSION = config('S3_SIGNATURE_VERSION', default='s3v4')
-    AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_ENDPOINT_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3-website.{AWS_S3_REGION_NAME}.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
 
 if not LOCAL_SERVE_STATIC_FILES:
@@ -211,4 +211,4 @@ if not LOCAL_SERVE_MEDIA_FILES:
     PRIVATE_MEDIA_LOCATION = 'media/private'
     PRIVATE_FILE_STORAGE = 'utils.storage_backends.PrivateMediaStorage'
 
-django_heroku.settings(locals(), staticfiles=False)
+django_heroku.settings(locals())
