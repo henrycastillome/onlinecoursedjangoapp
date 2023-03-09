@@ -4,21 +4,16 @@ version = "1.0.0"
 description = "an app for an online course"
 authors = ["Henry Castillo <hcasti40@pratt.edu>"]
 
-[tool.poetry.dependencies]
-python = "3.10.5"
 
+[tool.poetry.dependencies]
+python = "3.9.8"
+Django = "^4.0.1"
 gunicorn = "^20.1.0"
 Pillow = "^9.0.0"
 django-heroku = "^0.3.1"
 django-storages = "^1.12.3"
 boto3 = "^1.20.34"
 python-decouple = "^3.5"
-
-dj_database_url= '1.2.0'
-Django= '4.1.3'
-
-whitenoise = '^6.0'
-psycopg2 = '^2.0'
 
 [tool.poetry.dev-dependencies]
 
