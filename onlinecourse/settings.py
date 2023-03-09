@@ -177,7 +177,7 @@ if "CI" in os.environ:
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-S3_ENABLED = config('S3_ENABLED', cast=bool, default=True)
+S3_ENABLED = config('S3_ENABLED', cast=bool, default=False)
 LOCAL_SERVE_MEDIA_FILES = config('LOCAL_SERVE_MEDIA_FILES', cast=bool, default=not S3_ENABLED)
 LOCAL_SERVE_STATIC_FILES = config('LOCAL_SERVE_STATIC_FILES', cast=bool, default=not S3_ENABLED)
 
